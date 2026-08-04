@@ -12,10 +12,10 @@ Projeto desenvolvido como desafio de código da trilha **"Desenvolvendo Seu Educ
 4. A IA retorna um diagnóstico em JSON (viabilidade da meta, análise do orçamento, sugestões, ideias de renda extra, sugestões de investimento e uma mensagem motivacional), que é exibido de forma amigável na tela.
 5. Estados de carregamento (skeleton) e erro (com botão de tentar novamente) são tratados, e chamadas duplicadas à API são evitadas.
 
-### Melhorias implementadas (desafios do repositório base)
+### Melhorias implementadas (desafios)
 
-- **Desafio 1 — Histórico de simulações** (`/historico`): lista todas as simulações salvas, com resumo da meta, data e economia mensal necessária; permite excluir uma simulação e navegar para os detalhes/insights já gerados.
-- **Desafio 2 — Conversando com o educador financeiro**: dentro do card de insights, um chat permite fazer perguntas de acompanhamento sobre a simulação. As perguntas e respostas ficam salvas no `localStorage` por simulação, com scroll automático e feedback de carregamento/erro.
+- **Desafio 1 — Histórico de simulações** (`/historico`): 
+- **Desafio 2 — Conversando com o educador financeiro**: 
 
 ## Tecnologias usadas
 
@@ -26,22 +26,6 @@ Projeto desenvolvido como desafio de código da trilha **"Desenvolvendo Seu Educ
 - lucide-react (ícones)
 - react-loading-skeleton
 - API do Google Gemini (`gemini-flash-latest`)
-
-## Como executar
-
-```bash
-# instalar dependências
-pnpm install # ou npm install / yarn
-
-# configurar a chave da API do Gemini
-cp .env.example .env.local
-# edite .env.local e defina VITE_GEMINI_API_KEY com sua chave gerada em https://aistudio.google.com/
-
-# rodar em desenvolvimento
-pnpm dev
-```
-
-A aplicação sobe em `http://localhost:5173`.
 
 ## Como testar o fluxo principal
 

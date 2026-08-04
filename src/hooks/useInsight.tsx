@@ -15,7 +15,7 @@ export const useInsight = (id: string) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // useCallback é necessário pois essa função entra no array de dependências do useEffect
+  // useCallback useEffect
   const fetchInsight = useCallback(
     async (simulationId: string) => {
       const simulation = getFormData(simulationId)
@@ -35,7 +35,8 @@ export const useInsight = (id: string) => {
         setInsight(data)
         saveInsight(simulationId, data)
         return data
-      } catch {
+      } catch (err) {
+        console.error('Erro ao gerar insight:', err)
         setError('Erro ao gerar o diagnóstico. Tente novamente.')
       } finally {
         isRequestPending.current = false
@@ -46,7 +47,7 @@ export const useInsight = (id: string) => {
   )
 
   useEffect(() => {
-    // Evita loop infinito e chamadas duplicadas (ex: React Strict Mode)
+    // Evita loop infinito e chamadas duplicadas
     if (insight || isLoading || isRequestPending.current || error) {
       return
     }
