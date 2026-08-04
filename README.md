@@ -14,8 +14,8 @@ Projeto desenvolvido como desafio de código da trilha **"Desenvolvendo Seu Educ
 
 ### Melhorias implementadas (desafios)
 
-- **Desafio 1 — Histórico de simulações** (`/historico`): 
-- **Desafio 2 — Conversando com o educador financeiro**: 
+- **Desafio 1 — Histórico de simulações** (`/historico`): lista todas as simulações salvas, com resumo da meta, data e economia mensal necessária; permite excluir uma simulação e navegar para os detalhes/insights já gerados.
+- **Desafio 2 — Conversando com o educador financeiro**: dentro do card de insights, um chat permite fazer perguntas de acompanhamento sobre a simulação. As perguntas e respostas ficam salvas no `localStorage` por simulação, com scroll automático e feedback de carregamento/erro.
 
 ## Tecnologias usadas
 

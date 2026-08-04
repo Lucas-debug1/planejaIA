@@ -35,8 +35,7 @@ export const useInsight = (id: string) => {
         setInsight(data)
         saveInsight(simulationId, data)
         return data
-      } catch (err) {
-        console.error('Erro ao gerar insight:', err)
+      } catch {
         setError('Erro ao gerar o diagnóstico. Tente novamente.')
       } finally {
         isRequestPending.current = false
@@ -45,7 +44,6 @@ export const useInsight = (id: string) => {
     },
     [getFormData, saveInsight],
   )
-
   useEffect(() => {
     // Evita loop infinito e chamadas duplicadas
     if (insight || isLoading || isRequestPending.current || error) {
@@ -60,6 +58,5 @@ export const useInsight = (id: string) => {
       setInsight(data)
     })
   }, [id, insight, isLoading, error, fetchInsight])
-
   return { insight, isLoading, error, fetchInsight }
 }
