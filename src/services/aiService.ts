@@ -1,45 +1,25 @@
-interface GeminiResponse {
-  candidates: {
-    content: {
-      parts: { text: string }[]
-    }
-  }[]
+interface ApiResponse {
+  text?: string
+  error?: string
 }
 
-const API_KEY = String(import.meta.env.VITE_GEMINI_API_KEY ?? '')
-const MODEL_NAME = 'gemini-flash-latest'
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`
-
-async function callGeminiAPI(prompt: string): Promise<GeminiResponse> {
-  if (!API_KEY) {
-    throw new Error(
-      'Chave da API do Gemini não configurada. Adicione VITE_GEMINI_API_KEY no arquivo .env.local.',
-    )
-  }
-
-  const response = await fetch(GEMINI_API_URL, {
+async function callAI(prompt: string, asJson = false): Promise<string> {
+  const response = await fetch('/api/gemini', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-    }),
+    body: JSON.stringify({ prompt, json: asJson }),
   })
 
-  if (!response.ok) {
-    throw new Error(`Erro na requisição: ${response.status}`)
+  const data = (await response.json().catch(() => ({}))) as ApiResponse
+
+  if (!response.ok || !data.text) {
+    throw new Error(data.error ?? `Erro na requisição: ${response.status}`)
   }
 
-  return (await response.json()) as GeminiResponse
+  return cleanText(data.text)
 }
 
-function extractText(response: GeminiResponse): string {
-  const text = response.candidates?.[0]?.content?.parts?.[0]?.text
-
-  if (!text) {
-    throw new Error('Resposta vazia retornada pela IA.')
-  }
-
-  // Remove eventuais blocos de código (```json ... ```) que a IA às vezes inclui
+function cleanText(text: string): string {
   return text
     .trim()
     .replace(/^```json\s*/i, '')
@@ -61,12 +41,10 @@ export interface InsightData {
 }
 
 export async function getInsight(prompt: string): Promise<InsightData> {
-  const response = await callGeminiAPI(prompt)
-  const json = extractText(response)
+  const json = await callAI(prompt, true)
   return JSON.parse(json) as InsightData
 }
 
 export async function askFollowUpQuestion(prompt: string): Promise<string> {
-  const response = await callGeminiAPI(prompt)
-  return extractText(response)
+  return callAI(prompt)
 }
